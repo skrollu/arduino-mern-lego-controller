@@ -4,8 +4,16 @@
   "description": "Projet Arduino",
   "main": "app.js",
   "scripts": {
+    "start": "nodemon app.js",
     "test": "test"
   },
   "author": "Mathieu Ibersien & Florent Lore",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "serialport": "^9.0.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
 }
