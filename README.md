@@ -1,6 +1,9 @@
 ### Guide de démarrage
 
 Connecter son arduino sur un port de votre PC.
+Pour le montage vous pouvez télécharger Fritzing pour ouvrir le fichier ./Readme/Schema.fzz à la racine. Sinon suivez le schéma suivant: 
+
+![Schema](./Readme/Schema.PNG "Schema du montage")
 
 Il est possible d'obtenir la liste des ports USB utilisés par la machine avec le package @serialport/list
 
@@ -12,10 +15,6 @@ au port utiliser par votre machine.
 
 Préparer le serveur et le client à être démarré:
 
-        npm run server-intall
+        npm run server-install
         npm run client-install
         npm run server+client
-
-Pour le montage vous pouvez télécharger Fritzing pour ouvrir le fichier ./Readme/Schema.fzz à la racine. Sinon suivez le schéma suivant: 
-
-![Schema](./Readme/Schema.PNG "Schema du montage")

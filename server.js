@@ -1,6 +1,7 @@
 const port = process.env.PORT || 5000;
 
-const app = require('express')();
+const express = require('express')
+const app = express();
 const http = require('http').createServer(app);
 
 const socketIo = require("socket.io");
@@ -11,37 +12,48 @@ const io = socketIo(http, {
     }
 });
 
-io.on('connection', socket => {
-    socket.emit('request', /* … */); // emit an event to the socket
-    socket.on('messageReturnFromClient', (data) => { 
-        console.log("message Return From the Client: " + data) 
-    }); // listen to the event
-});
+
+/*************************************** ARDUINO ****************************************************/
+
 
 const SerialPort = require('serialport')
 const Readline = require('@serialport/parser-readline')
 //const port = new SerialPort('/dev/ttyACM0') // USB de mon PC portable Linux
 const serialPort = new SerialPort('COM4') //USB de mon pc Windows
 
+//On établit la connection avec le client Socket.io
+io.on('connection', socket => {
+
+    //A la réception d'un message du client on communique via le serial port
+    socket.on('client', (data) => {
+        console.log(Date.now() + ": Client: " + data.on);
+        
+        if(data.on %2 == 0){
+            serialPort.write('1')
+        } else {
+            serialPort.write('0')
+        }
+    });
+});
+
 const parser = serialPort.pipe(new Readline({
     delimiter: '\r\n'
 }))
 
-const onOpen = () => {
+parser.on('open', () => {
     console.log("On open...")
-}
+});
 
-const onData = (data) => {
+//Chaque serial.println("...") dans le code de l'arduino envoie des données sur le canal data
+//Nous communiquons ces données au client.
+parser.on('data', (data) => {
+    //console.log(data)
     const json = {
-        test: "coucou",
         angle: data
     }
-
+    
     io.sockets.emit('arduino', json); // emit an event to all connected sockets
-}
-
-parser.on('open', onOpen);
-parser.on('data', onData);
+});
 
 
 http.listen(port, () => {

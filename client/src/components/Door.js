@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import socketIOClient from "socket.io-client";
-//import axios from 'axios'
 
-import '../css/main/home.css'
+import '../css/main/door.css'
 
 
 export default class Door extends Component {
@@ -13,21 +12,23 @@ export default class Door extends Component {
         this.state = {
             socket: socket,
             datas: [],
-            open: false
+            open: false,
+            inc: 0
         };
+
+        // Cette liaison est nécéssaire afin de permettre
+        // l'utilisation de `this` dans la fonction de rappel.
+        this.switchLight = this.switchLight.bind(this);
     }
 
     componentDidMount() {
         this.state.socket.on("arduino", data => {
             this.addData(data);
-
-            this.state.socket.emit("messageReturnFromClient", this.state)
         });
     }
 
     //We only keep the 20 last received data in the state
     addData(data) {
-        console.log(this.state)
 
         if(this.state.datas.length >= 20) {
             let newDatas = this.state.datas;
@@ -49,9 +50,22 @@ export default class Door extends Component {
         } 
     }
 
+    switchLight(e){
+        let newInc = this.state.inc+1;
+
+        this.setState({ inc: newInc }, () => {
+            const light = {
+                on: this.state.inc
+            }
+
+            this.state.socket.emit("client", light);
+        })
+    }
+
     render() {
         return (
-            <div className="home">
+            <div className="door">
+                
                <div className="arduino-component-bloc">
                    <h2>Porte { this.state.open ? <span className="doorState open"> ouverte </span> : <span className="doorState close"> fermée </span> }</h2>
 
@@ -60,6 +74,8 @@ export default class Door extends Component {
                              <li>{data.angle}</li>
                         )) }
                    </ul>
+
+                   <button onClick={ this.switchLight }>Lumière</button>
                </div> 
             </div>
         )

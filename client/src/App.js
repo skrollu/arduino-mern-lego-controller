@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Door from './components/Door';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
+import Error from './components/error/Error';
 
 function App() {
   return (
@@ -15,7 +16,7 @@ function App() {
         <main className="main">
           <Switch>
             <Route path="/" exact component={ Door } />   
-            <Route path="/" component={() => <div>Erreur 404</div>} />   
+            <Route path="/" component={Error} />   
           </Switch>
         </main>
 
