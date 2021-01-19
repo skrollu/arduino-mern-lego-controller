@@ -26,12 +26,12 @@ io.on('connection', socket => {
 
     //A la réception d'un message du client on communique via le serial port
     socket.on('client', (data) => {
-        console.log(Date.now() + ": Client: " + data.on);
+        console.log("From Client: " + data.open);
         
-        if(data.on %2 == 0){
-            serialPort.write('1')
+        if(data.open){
+            serialPort.write('1') //Ouverte
         } else {
-            serialPort.write('0')
+            serialPort.write('0') //Fermée 
         }
     });
 });
@@ -47,9 +47,9 @@ parser.on('open', () => {
 //Chaque serial.println("...") dans le code de l'arduino envoie des données sur le canal data
 //Nous communiquons ces données au client.
 parser.on('data', (data) => {
-    //console.log(data)
+    console.log("From Arduino: " + data)
     const json = {
-        angle: data
+        open: data == "1" ? true : false
     }
     
     io.sockets.emit('arduino', json); // emit an event to all connected sockets

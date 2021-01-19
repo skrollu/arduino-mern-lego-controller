@@ -13,70 +13,60 @@ export default class Door extends Component {
             socket: socket,
             datas: [],
             open: false,
-            inc: 0
         };
-
+        
         // Cette liaison est nécéssaire afin de permettre
         // l'utilisation de `this` dans la fonction de rappel.
         this.switchLight = this.switchLight.bind(this);
     }
-
+    
     componentDidMount() {
         this.state.socket.on("arduino", data => {
-            this.addData(data);
+            this.loadData(data);
         });
     }
-
+    
     //We only keep the 20 last received data in the state
-    addData(data) {
+    loadData(data) {
+        console.log("Received: " + data.open)
+        let newDatas = this.state.datas;
 
         if(this.state.datas.length >= 20) {
-            let newDatas = this.state.datas;
-            newDatas.shift();
-            newDatas.push(data)
-            
-            this.setState({
-                datas: newDatas,
-                open: (data > 0 ? true : false)
-            })
-        } else {
-            let newDatas = this.state.datas;
-            newDatas.push(data);
+            newDatas.shift(); // retire le premier element    
+        }
 
-            this.setState({
-                datas: newDatas,
-                open: (data > 0 ? true : false)
-            })
-        } 
-    }
-
-    switchLight(e){
-        let newInc = this.state.inc+1;
-
-        this.setState({ inc: newInc }, () => {
-            const light = {
-                on: this.state.inc
-            }
-
-            this.state.socket.emit("client", light);
+        newDatas.push(data.open) // ajoute data à la fin du tableau 
+        
+        this.setState({
+            datas: newDatas,
+            open: data.open
         })
     }
-
+    
+    switchLight(e){
+        console.log("Click: " + this.state.open);
+        const toSend = {
+            open: !this.state.open
+        }
+        this.state.socket.emit("client", toSend);
+    }
+    
     render() {
         return (
             <div className="door">
-                
-               <div className="arduino-component-bloc">
-                   <h2>Porte { this.state.open ? <span className="doorState open"> ouverte </span> : <span className="doorState close"> fermée </span> }</h2>
-
-                   <ul>
-                       { this.state.datas.map(data => (
-                             <li>{data.angle}</li>
-                        )) }
-                   </ul>
-
-                   <button onClick={ this.switchLight }>Lumière</button>
-               </div> 
+                <div className="door-bloc">
+                    <div className="door-header">
+                        <h2>Porte { this.state.open ? <span className="doorState open"> ouverte </span> : <span className="doorState close"> fermée </span> }</h2>
+                        <button id="openClose-btn" onClick={ this.switchLight }>Ouvrir/Fermer</button>
+                    </div>
+                    <ul>
+                        <div className="door-historic">
+                            { this.state.datas.map(d => (
+                                <li>{ d ? <span> ouverte </span> : <span> fermée </span> }</li>
+                            )) }
+                        </div>
+                    </ul>
+                </div> 
             </div>
         )
     }
