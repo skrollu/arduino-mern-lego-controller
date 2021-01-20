@@ -7,8 +7,8 @@ const int servoPin = 3;
 void setup() {
   Serial.begin(9600);
   servo.attach(servoPin);
-  servo.write(0);
-  Serial.println("0");
+  //servo.write(0);
+  //Serial.println("0");
   pinMode(LED_PIN, OUTPUT);
 }
 

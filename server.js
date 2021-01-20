@@ -2,7 +2,21 @@ const port = process.env.PORT || 5000;
 
 const express = require('express')
 const app = express();
+
+const logger = require('morgan');
+app.use(logger('dev'));
+
+const doorRoutes = require('./routes/door');
+app.use("/", doorRoutes);
+
 const http = require('http').createServer(app);
+
+/*************************************** MongoDB ****************************************************/
+
+const db = require('./Database/db');
+const Door = require('./Database/models/door')
+
+/*************************************** socketIo ****************************************************/
 
 const socketIo = require("socket.io");
 const io = socketIo(http, {
@@ -11,7 +25,6 @@ const io = socketIo(http, {
         methods: ["GET", "POST"]
     }
 });
-
 
 /*************************************** ARDUINO ****************************************************/
 
@@ -48,14 +61,22 @@ parser.on('open', () => {
 //Nous communiquons ces données au client.
 parser.on('data', (data) => {
     console.log("From Arduino: " + data)
-    const json = {
+
+    const newDoor = new Door({
         open: data == "1" ? true : false
-    }
-    
-    io.sockets.emit('arduino', json); // emit an event to all connected sockets
+    })
+
+    newDoor.save().then((door) => {
+        console.log(door);
+        if(door) {
+            io.sockets.emit('arduino', door); // emit an event to all connected sockets
+        } else {
+            io.sockets.emit('arduino', "Error: save in database didn't work.."); // emit an event to all connected sockets
+        }
+    }).catch(err => console.log("Error catched: " + err));
 });
 
 
 http.listen(port, () => {
-    console.log("Server Started on port " + port)
+    console.log("Server started on port " + port)
 })

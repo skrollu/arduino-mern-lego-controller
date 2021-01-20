@@ -2,5 +2,10 @@
     display: flex;
     justify-content: center;
 
-    border-top: solid 1px black;
+    background-color: rgb(218, 218, 218);
+}
+
+.footer-bloc ul {
+    list-style-type: none;
+    padding-left: 15px;
 }

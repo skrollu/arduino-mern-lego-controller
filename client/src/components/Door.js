@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import socketIOClient from "socket.io-client";
-
-import '../css/main/door.css'
+import axios from 'axios';
+import '../css/main/door.css';
 
 
 export default class Door extends Component {
@@ -21,6 +21,14 @@ export default class Door extends Component {
     }
     
     componentDidMount() {
+        axios.get('/door').then(res => {
+            this.setState({
+                datas: res.data
+            })
+        }).catch(e => {
+            console.log(e)
+        });
+
         this.state.socket.on("arduino", data => {
             this.loadData(data);
         });
@@ -28,15 +36,13 @@ export default class Door extends Component {
     
     //We only keep the 20 last received data in the state
     loadData(data) {
-        console.log("Received: " + data.open)
+
+        //console.log(data.date)
+
         let newDatas = this.state.datas;
 
-        if(this.state.datas.length >= 20) {
-            newDatas.shift(); // retire le premier element    
-        }
-
-        newDatas.push(data.open) // ajoute data à la fin du tableau 
-        
+        if(this.state.datas.length >= 20) { newDatas.shift(); }
+        newDatas.push(data) // ajoute data à la fin du tableau 
         this.setState({
             datas: newDatas,
             open: data.open
@@ -44,7 +50,7 @@ export default class Door extends Component {
     }
     
     switchLight(e){
-        console.log("Click: " + this.state.open);
+        //console.log("Click: " + this.state.open);
         const toSend = {
             open: !this.state.open
         }
@@ -52,18 +58,23 @@ export default class Door extends Component {
     }
     
     render() {
+        const historic = this.state.datas.map(d => (
+            <li>{ new Date(d.date).toUTCString() }: { d.open ? <span className="open"> ouverte </span> : <span className="close"> fermée </span> }</li>
+        ))
+        
+        console.log("historic")
+        console.log(historic)
+
         return (
             <div className="door">
                 <div className="door-bloc">
                     <div className="door-header">
                         <h2>Porte { this.state.open ? <span className="doorState open"> ouverte </span> : <span className="doorState close"> fermée </span> }</h2>
-                        <button id="openClose-btn" onClick={ this.switchLight }>Ouvrir/Fermer</button>
+                        <button id="openClose-btn" onClick={ this.switchLight }>{this.state.open ? <span>Fermer</span> : <span>Ouvrir</span>}</button>
                     </div>
                     <ul>
                         <div className="door-historic">
-                            { this.state.datas.map(d => (
-                                <li>{ d ? <span> ouverte </span> : <span> fermée </span> }</li>
-                            )) }
+                          { historic }
                         </div>
                     </ul>
                 </div> 
