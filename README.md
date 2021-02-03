@@ -19,3 +19,8 @@ Préparer le serveur et le client à être démarré:
         npm run client-install
         npm run server+client
 
+## License & copyright
+
+Mathieu Ibersien, Florent Lore
+
+Licensed under the  [MIT License](LICENSE).
