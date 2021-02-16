@@ -34,14 +34,14 @@ export default class Door extends Component {
         });
     }
     
-    //We only keep the 20 last received data in the state
+    //We only keep the 30 last received data in the state
     loadData(data) {
 
         //console.log(data.date)
 
         let newDatas = this.state.datas;
 
-        if(this.state.datas.length >= 20) { newDatas.shift(); }
+        if(this.state.datas.length >= 30) { newDatas.shift(); }
         newDatas.push(data) // ajoute data à la fin du tableau 
         this.setState({
             datas: newDatas,

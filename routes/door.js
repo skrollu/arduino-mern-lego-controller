@@ -18,8 +18,8 @@ router.get('/door', (req, res) => {
                     return a.date - b.date
                 })
 
-                //We only send the 20 last datas.
-                const datasToSend = await datas.slice(datas.length - 20);
+                //We only send the 30 last datas.
+                const datasToSend = await datas.slice(datas.length - 30);
                 //console.log(datasToSend)
                 res.json(datasToSend);
             }
