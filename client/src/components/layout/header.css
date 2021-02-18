@@ -1,0 +1,25 @@
+.header-content {
+    height: 100%;
+    background-color: rgb(233, 233, 233);   
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    margin-bottom: 10px;
+
+    background-color: rgb(255, 208, 0);
+}
+
+.header-content img {
+    height: 80px;
+    padding: 15px;
+}
+
+.header-content h1{
+    padding-left: 50px;    
+}
+
+.header-content h4{
+    padding-left: 180px;    
+}

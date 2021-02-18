@@ -1,6 +1,6 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import Door from './components/Door';
+import Door from './components/main/Door';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import Error from './components/error/Error';

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import emmet from './Emmet.png'
 import { Link } from 'react-router-dom'
-import '../../css/error/error.css'
+import './error.css'
 
 export default class Error extends Component {
     render() {

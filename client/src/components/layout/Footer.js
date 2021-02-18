@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import '../../css/layout/footer.css'
+import './footer.css'
+import icon from './icon.png'
 
 export default class Footer extends Component {
     render() {
@@ -10,8 +11,8 @@ export default class Footer extends Component {
                         Created by
                     </h3>
                     <ul>
-                        <li>Florent Lore</li>
-                        <li>Mathieu Ibersien</li>
+                        <li><img src={icon}></img>Florent Lore</li>
+                        <li><img src={icon}></img>Mathieu Ibersien</li>
                     </ul>
                 </div>
             </div>

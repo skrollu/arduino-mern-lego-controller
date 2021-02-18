@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import socketIOClient from "socket.io-client";
 import axios from 'axios';
-import '../css/main/door.css';
-
+import './door.css';
+import lego from './customer.webp'
+import lego1 from './carre_vert_4x4_00.png'
 
 export default class Door extends Component {
     constructor() {
@@ -66,7 +67,28 @@ export default class Door extends Component {
         console.log(historic)
 
         return (
+            <>
             <div className="door">
+                <div className="door-img-fall">
+                    <div className="door-img-bloc">
+                        <img src={lego1}></img>
+                    </div>
+                    <div className="door-img-bloc">
+                        <img src={lego1}></img>
+                    </div>
+                    <div className="door-img-bloc">
+                        <img src={lego1}></img>
+                    </div>
+                    <div className="door-img-bloc">
+                        <img src={lego1}></img>
+                    </div>
+                    <div className="door-img-bloc">
+                        <img src={lego1}></img>
+                    </div>
+                </div>
+                <div className="door-img">
+                    <img src={lego}></img>
+                </div>
                 <div className="door-bloc">
                     <div className="door-header">
                         <h2>Porte { this.state.open ? <span className="doorState open"> ouverte </span> : <span className="doorState close"> fermée </span> }</h2>
@@ -79,6 +101,7 @@ export default class Door extends Component {
                     </ul>
                 </div> 
             </div>
+            </>
         )
     }
 }
