@@ -3,7 +3,7 @@
 Connecter son arduino sur un port de votre PC.
 Pour le montage Arduino vous pouvez télécharger Fritzing pour ouvrir le fichier *./Readme/Schema_final.fzz* à la racine. Sinon suivez le schéma suivant: 
 
-![Schema](./Readme/Schema_final.PNG "Schema du montage")
+![Schema](./Readme/Schema_final.png "Schema du montage")
 
 Il est possible d'obtenir la liste des ports USB utilisés par la machine avec le package @serialport/list
 
