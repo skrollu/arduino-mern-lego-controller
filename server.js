@@ -31,8 +31,8 @@ const io = socketIo(http, {
 
 const SerialPort = require('serialport')
 const Readline = require('@serialport/parser-readline')
-//const serialPort = new SerialPort('/dev/ttyACM0') // USB de mon PC portable Linux
-const serialPort = new SerialPort('COM4') //USB de mon pc Windows
+const serialPort = new SerialPort('/dev/ttyACM0') // USB de mon PC portable Linux
+//const serialPort = new SerialPort('COM4') //USB de mon pc Windows
 
 //On établit la connection avec le client Socket.io
 io.on('connection', socket => {
