@@ -1,7 +1,7 @@
 ### Guide de démarrage
 
 Connecter son arduino sur un port de votre PC.
-Pour le montage Arduino vous pouvez télécharger Fritzing pour ouvrir le fichier *./Readme/Schema1.fzz* à la racine. Sinon suivez le schéma suivant: 
+Pour le montage Arduino vous pouvez télécharger Fritzing pour ouvrir le fichier *./Readme/Schema_final.fzz* à la racine. Sinon suivez le schéma suivant: 
 
 ![Schema](./Readme/Schema_final.PNG "Schema du montage")
 
