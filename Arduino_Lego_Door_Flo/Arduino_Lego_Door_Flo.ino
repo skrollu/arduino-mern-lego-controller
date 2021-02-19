@@ -45,6 +45,7 @@ void loop() {
     case startAngle:
       servo.write(endAngle);
       currentAngle = endAngle;
+      Serial.println('1');
       lcd.clear();
       lcd.print("door open!");
       delay(1000);
@@ -52,6 +53,7 @@ void loop() {
     case endAngle:
       servo.write(startAngle);
       currentAngle = startAngle;
+      Serial.println('0');
       lcd.clear();
       lcd.print("door close!");
       delay(1000);

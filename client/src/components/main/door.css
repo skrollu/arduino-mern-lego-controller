@@ -54,7 +54,7 @@
 }
 
 .door-img-fall .door-img-bloc:nth-child(5) img{
-    bottom: 150px;
+    bottom: 90px;
     left: 200px;
     height: 150px;
     transform: rotate(35deg);
@@ -120,7 +120,7 @@
     padding: 10px;
     transform: translateX(-50%);
     
-    height: 600px;
+    height: 500px;
     min-width: 300px;
     
     display: flex;
