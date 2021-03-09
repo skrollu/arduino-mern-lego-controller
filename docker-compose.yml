@@ -1,0 +1,29 @@
+version: '3'
+services:
+
+  mongo:
+    image: 'mongo'
+    ports:
+      - "27017:27017"
+
+  server:
+    build:
+      context: ./server
+      dockerfile: ./Dockerfile
+    devices: #map Serial port for arduino connection
+      #- "/dev/ttyACM0:/dev/ttyACM0"
+      - "/COM4:/COM4"
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo  
+
+  client:
+    build:
+      context: ./client
+      dockerfile: ./Dockerfile
+    image: "react-frontend"
+    ports:
+      - "3000:3000"
+    links:
+      - "server:se"

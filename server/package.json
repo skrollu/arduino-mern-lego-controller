@@ -6,10 +6,8 @@
   "scripts": {
     "server": "nodemon server.js",
     "server-install": "npm install",
-    "test": "test",
-    "client": "npm start --prefix client",
-    "client-install": "cd client && npm install",
-    "server+client": "concurrently \"npm run server\" \"npm run client\""
+    "client": "npm start --prefix ./../client",
+    "client-install": "npm install --prefix ./../client"
   },
   "author": "Mathieu Ibersien & Florent Lore",
   "license": "MIT",

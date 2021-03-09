@@ -29,11 +29,13 @@ void loop() {
       case startAngle:
         servo.write(endAngle);
         currentAngle = endAngle;
+        Serial.println('1');
         delay(1000);
         break;
       case endAngle: 
         servo.write(startAngle);
         currentAngle = startAngle;
+        Serial.println('0');
         delay(1000);
         break;
       default:
@@ -46,9 +48,7 @@ void loop() {
   if (Serial.available() > 0) {
      unsigned char inChar = (unsigned char)Serial.read();
      openCloseDoor(inChar);
-  }
-
-  
+  }  
 }
 
 void openCloseDoor(unsigned char onOff) {
