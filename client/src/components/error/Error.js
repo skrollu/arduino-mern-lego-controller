@@ -9,7 +9,7 @@ export default class Error extends Component {
             <div className="error">
                 <div className="error-image">
                     <Link to="/">
-                        <img src={emmet}></img>
+                        <img src={emmet} alt="alt"></img>
                     </Link>
                 </div>
                 <div className="error-title">

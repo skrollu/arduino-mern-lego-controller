@@ -30,7 +30,20 @@ export default class Door extends Component {
             console.log(e)
         });
 
+        this.state.socket.on("connect", (ws) => {
+            console.log("Socket connected")
+        });
+        
+        const getActualState = () => {
+            const getState = {
+                type: "getState"
+            }
+            this.state.socket.emit("client", getState)
+        }
+        getActualState();
+        
         this.state.socket.on("arduino", data => {
+            console.log("Socket received data from arduino")
             this.loadData(data);
         });
     }
@@ -38,21 +51,28 @@ export default class Door extends Component {
     //We only keep the 30 last received data in the state
     loadData(data) {
 
-        //console.log(data.date)
+        console.log("From Arduino: ", data)
 
-        let newDatas = this.state.datas;
-
-        if(this.state.datas.length >= 30) { newDatas.shift(); }
-        newDatas.push(data) // ajoute data à la fin du tableau 
-        this.setState({
-            datas: newDatas,
-            open: data.open
-        })
+        if (data.type === "getState") {
+            this.setState({
+                open: data.state
+            })
+        } else if (data.type === "openClose") {
+            let newDatas = this.state.datas;
+    
+            if(this.state.datas.length >= 30) { newDatas.shift(); }
+            newDatas.push(data) // ajoute data à la fin du tableau 
+            this.setState({
+                datas: newDatas,
+                open: data.open
+            })
+        }
     }
     
     switchLight(e){
         //console.log("Click: " + this.state.open);
         const toSend = {
+            type: "openClose",
             open: !this.state.open
         }
         this.state.socket.emit("client", toSend);
@@ -60,34 +80,31 @@ export default class Door extends Component {
     
     render() {
         const historic = this.state.datas.map(d => (
-            <li>{ new Date(d.date).toUTCString() }: { d.open ? <span className="open"> ouverte </span> : <span className="close"> fermée </span> }</li>
+            <li key={d._id}>{ new Date(d.date).toUTCString() }: { d.open ? <span className="open"> ouverte </span> : <span className="close"> fermée </span> }</li>
         ))
         
-        console.log("historic")
-        console.log(historic)
-
         return (
             <>
             <div className="door">
                 <div className="door-img-fall">
                     <div className="door-img-bloc">
-                        <img src={lego1}></img>
+                        <img src={lego1} alt="alt"></img>
                     </div>
                     <div className="door-img-bloc">
-                        <img src={lego1}></img>
+                        <img src={lego1} alt="alt"></img>
                     </div>
                     <div className="door-img-bloc">
-                        <img src={lego1}></img>
+                        <img src={lego1} alt="alt"></img>
                     </div>
                     <div className="door-img-bloc">
-                        <img src={lego1}></img>
+                        <img src={lego1} alt="alt"></img>
                     </div>
                     <div className="door-img-bloc">
-                        <img src={lego1}></img>
+                        <img src={lego1} alt="alt"></img>
                     </div>
                 </div>
                 <div className="door-img">
-                    <img src={lego}></img>
+                    <img src={lego} alt="alt"></img>
                 </div>
                 <div className="door-bloc">
                     <div className="door-header">

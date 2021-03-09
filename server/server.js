@@ -31,20 +31,24 @@ const io = socketIo(http, {
 
 const SerialPort = require('serialport')
 const Readline = require('@serialport/parser-readline')
-const serialPort = new SerialPort('/dev/ttyACM0') // USB de mon PC portable Linux
-//const serialPort = new SerialPort('COM4') //USB de mon pc Windows
+//const serialPort = new SerialPort('/dev/ttyACM0') // USB de mon PC portable Linux
+const serialPort = new SerialPort('COM4') //USB de mon pc Windows
 
 //On établit la connection avec le client Socket.io
 io.on('connection', socket => {
 
     //A la réception d'un message du client on communique via le serial port
     socket.on('client', (data) => {
-        console.log("From Client: " + data.open);
+        console.log("From Client: ", data);
         
-        if(data.open){
-            serialPort.write('1') //Ouverte
-        } else {
-            serialPort.write('0') //Fermée 
+        if(data.type === "openClose"){
+            if(data.open){
+                serialPort.write('1') //Ouverte
+            } else {
+                serialPort.write('0') //Fermée 
+            }
+        } else if (data.type === "getState") {
+            serialPort.write('2') //Get actual state from arduino 
         }
     });
 });
@@ -62,18 +66,39 @@ parser.on('open', () => {
 parser.on('data', (data) => {
     console.log("From Arduino: " + data)
 
-    const newDoor = new Door({
-        open: data == "1" ? true : false
-    })
+    if(data == "0" || data == "1") {
+        const newDoor = new Door({
+            open: data == "1" ? true : false
+        })
+    
+        newDoor.save().then((door) => {
+            console.log('inserted in db: ', door);
 
-    newDoor.save().then((door) => {
-        console.log(door);
-        if(door) {
-            io.sockets.emit('arduino', door); // emit an event to all connected sockets
-        } else {
-            io.sockets.emit('arduino', "Error: save in database didn't work.."); // emit an event to all connected sockets
+            const toSend = {    
+                _id: door._id,
+                open: door.open,
+                date: door.date,
+                type: "openClose",
+            }
+    
+            if(door) {
+                io.sockets.emit('arduino', toSend); // emit an event to all connected sockets
+            } else {
+                io.sockets.emit('arduino', "Error: save in database didn't work.."); // emit an event to all connected sockets
+            }
+        }).catch(err => console.log("Error catched: " + err));
+        
+    } else {// return only the current state of the door
+        const doorState = {
+            type: "getState",
+            state: data == "3" ? true : false
         }
-    }).catch(err => console.log("Error catched: " + err));
+        if(data == "3") { // door is open 
+            io.sockets.emit('arduino', doorState);
+        } else if (data == "4") { //door is close
+            io.sockets.emit('arduino', doorState);
+        }
+    }
 });
 
 

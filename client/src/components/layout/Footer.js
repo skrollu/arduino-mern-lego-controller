@@ -11,8 +11,8 @@ export default class Footer extends Component {
                         Created by
                     </h3>
                     <ul>
-                        <li><img src={icon}></img>Florent Lore</li>
-                        <li><img src={icon}></img>Mathieu Ibersien</li>
+                        <li><img src={icon} alt="alt"></img>Florent Lore</li>
+                        <li><img src={icon} alt="alt"></img>Mathieu Ibersien</li>
                     </ul>
                 </div>
             </div>

@@ -15,7 +15,7 @@ void setup() {
   servo.attach(servoPin);
   servo.write(0);
   Serial.println("0");
-  currentAngle = 0;
+  currentAngle = startAngle;
   pinMode(LED_PIN, OUTPUT);
   pinMode (bouton, INPUT) ;             // on indique que le bouton est une entrée.
 }
@@ -23,8 +23,7 @@ void setup() {
 void loop() {
   etatbouton = digitalRead (bouton);  // On lit l’état du bouton pour savoir s’il est ouvert ou fermé
 
-  if (etatbouton==HIGH) {            // Si la variable “etatbouton” est ouverte, à l’état haut, donc laisse passer le courant.
-
+  if (etatbouton==HIGH) {            // Si la variable “etatbouton” est ouverte, à l’état haut, donc laisse passer le courant. "On appuie sur le bouton"
     switch(currentAngle){
       case startAngle:
         servo.write(endAngle);
@@ -56,12 +55,21 @@ void openCloseDoor(unsigned char onOff) {
     case '0':
       digitalWrite( LED_PIN, LOW );
       servo.write(startAngle);
+      currentAngle = startAngle;
       Serial.println("0");
       break;
     case '1':
       digitalWrite( LED_PIN, HIGH );
       servo.write(endAngle);
+      currentAngle = endAngle;
       Serial.println("1");
+      break;
+    case '2':
+      if(currentAngle == startAngle) {
+          Serial.println("4"); // La porte est fermée
+      } else {
+          Serial.println("3"); // La porte est ouverte
+      }
       break;
     default:
       Serial.print("Error");
