@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const URL = "mongodb://localhost:27017/arduino";
+const URL = process.env.MONGO_URL || "mongodb://localhost:27017/arduino";
 
 mongoose.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true });
 

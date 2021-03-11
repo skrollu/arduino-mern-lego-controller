@@ -1,14 +1,13 @@
-FROM node:15
+FROM node:12.18.3
 
 LABEL version="1.0"
 LABEL description="Docker image for backend express server: Lego Controller."
 
 WORKDIR /backend
 
-COPY ["package.json", "package-lock.json", "./"]
-RUN ls
-RUN npm install
 COPY . .
+
+RUN npm install
 
 EXPOSE 5000
 
