@@ -1,3 +1,7 @@
+# Lego Controller
+
+Ce projet a été réalisé dans le cadre de la matière IOT en M2 IWOCS à l'université du Havre. Il s'agit d'un projet Fullstack réunissant un Front React relié à un serveur Node.js communicant avec un Arduino Uno. Dans le cadre de notre projet, une porte coulissante réalisée en Lego Star Wars s'ouvre soit grâce à l'interface, soit par un bouton physique présent sur le montage de l'Arduino.
+
 ### Guide de démarrage
 
 Connecter son arduino sur un port de votre PC.
