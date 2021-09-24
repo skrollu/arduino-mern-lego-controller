@@ -1,0 +1,21 @@
+.footer-content {
+    display: flex;
+    justify-content: center;
+
+    background-color: rgb(218, 218, 218);
+}
+
+.footer-bloc ul {
+    list-style-type: none;
+    padding-left: 15px;
+}
+
+.footer-bloc ul li {
+    display: flex;
+    align-items: center;
+}
+
+.footer-bloc ul li img{
+    height: 25px;
+    clip-path: circle(40%);
+}

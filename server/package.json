@@ -1,0 +1,23 @@
+{
+  "name": "arduino",
+  "version": "1.0.0",
+  "description": "Projet Arduino",
+  "main": "server.js",
+  "scripts": {
+    "server": "nodemon server.js",
+    "server-install": "npm install",
+    "client": "npm start --prefix ./../client",
+    "client-install": "npm install --prefix ./../client"
+  },
+  "author": "Mathieu Ibersien & Florent Lore",
+  "license": "MIT",
+  "dependencies": {
+    "@serialport/parser-readline": "^9.0.1",
+    "express": "^4.17.1",
+    "mongoose": "^5.11.12",
+    "morgan": "^1.10.0",
+    "serialport": "^9.0.7",
+    "socket.io": "^3.1.0"
+  },
+  "devDependencies": {}
+}

@@ -1,0 +1,18 @@
+.App {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    
+}
+
+.main {
+    background-color: rgb(233, 233, 233);
+    flex: 1 0 auto;
+}
+
+.footer {
+
+}

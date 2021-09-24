@@ -1,0 +1,14 @@
+.error {
+    margin: 100px 100px 0 100px;
+
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.error .error-image img{
+    height: auto;
+}
+
+.error .error-title h1 {
+    border: 1px solid black;
+}
